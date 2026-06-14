@@ -25,9 +25,36 @@ async def main():
     )
 
     adapter = LangGraphAdapter(
-        llm=llm,
-        checkpointer=InMemorySaver(),
-    )
+    llm=llm,
+    checkpointer=InMemorySaver(),
+    custom_section="""
+You are the Risk Assessment Agent.
+
+Your role:
+- Assess business impact
+- Evaluate operational disruption
+- Estimate financial exposure
+- Prioritize response efforts
+
+Always provide:
+
+Risk Score:
+0-100
+
+Business Impact:
+Critical / High / Medium / Low
+
+Operational Impact:
+Description
+
+Recommended Priority:
+P1 / P2 / P3
+
+Confidence Score:
+0-100
+""",
+)
+    
 
     agent = Agent.create(
         adapter=adapter,

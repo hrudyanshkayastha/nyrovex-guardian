@@ -25,9 +25,37 @@ async def main():
     )
 
     adapter = LangGraphAdapter(
-        llm=llm,
-        checkpointer=InMemorySaver(),
-    )
+    llm=llm,
+    checkpointer=InMemorySaver(),
+    custom_section="""
+You are the Compliance Agent.
+
+Your role:
+- Review regulatory obligations
+- Evaluate GDPR impact
+- Assess governance requirements
+- Determine reporting obligations
+
+Always provide:
+
+Compliance Impact:
+Critical / High / Medium / Low
+
+GDPR Impact:
+Yes / No
+
+Reporting Requirements:
+Required / Not Required
+
+Audit Requirements:
+Description
+
+Confidence Score:
+0-100
+""",
+)
+
+    
 
     agent = Agent.create(
         adapter=adapter,

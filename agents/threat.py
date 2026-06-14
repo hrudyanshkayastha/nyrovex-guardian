@@ -25,9 +25,24 @@ async def main():
     )
 
     adapter = LangGraphAdapter(
-        llm=llm,
-        checkpointer=InMemorySaver(),
-    )
+    llm=llm,
+    checkpointer=InMemorySaver(),
+    custom_section="""
+You are the Threat Intelligence Agent.
+
+Responsibilities:
+- Analyze indicators of compromise (IOCs)
+- Map activity to MITRE ATT&CK techniques
+- Identify attack chains
+- Assess threat severity
+- Return findings in structured format
+
+Always provide:
+- Severity
+- MITRE techniques
+- Confidence score (0-100)
+""",
+)    
 
     agent = Agent.create(
         adapter=adapter,

@@ -5,7 +5,10 @@
 
     <title>Nyrovex Guardian</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <link rel="stylesheet" href="/static/css/style.css">
+
 
 </head>
 
@@ -88,6 +91,16 @@
             <button onclick="simulateAttack()">
                 Simulate Incident
             </button>
+
+        </div>
+
+        <div class="panel">
+
+            <h2>THREAT SEVERITY TREND</h2>
+
+            <div class="chart-container">
+
+                <canvas id="severityChart"></canvas>
 
         </div>
 

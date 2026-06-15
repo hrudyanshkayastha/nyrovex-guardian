@@ -39,6 +39,14 @@ MITRE: T1003
 mitre: [
     "T1003 Credential Dumping",
     "T1059.001 PowerShell"
+],
+
+severity: [
+    30,
+    45,
+    60,
+    75,
+    85
 ]
     },
 
@@ -80,6 +88,14 @@ Ransom Note Found
 mitre: [
     "T1486 Data Encrypted For Impact",
     "T1490 Inhibit System Recovery"
+],
+
+severity: [
+    40,
+    60,
+    80,
+    90,
+    95
 ]
     },
 
@@ -120,11 +136,21 @@ Possible Exfiltration
 mitre: [
     "T1041 Exfiltration Over C2 Channel",
     "T1071 Application Layer Protocol"
+],
+
+severity: [
+    20,
+    40,
+    55,
+    75,
+    90
 ]
     }
 };
 
 let currentTimer = null;
+
+let severityChart = null;
 
 function resetAgents() {
 
@@ -160,6 +186,88 @@ function simulateAttack() {
     const scenario =
         attackScenarios[attack];
 
+    const ctx =
+    document.getElementById(
+        "severityChart"
+    );
+
+if (severityChart) {
+
+    severityChart.destroy();
+}
+
+severityChart =
+    new Chart(ctx, {
+
+        type: "bar",
+
+        data: {
+
+            labels: [
+                "Alert",
+                "Analysis",
+                "Forensics",
+                "Risk",
+                "Report"
+            ],
+
+            datasets: [{
+
+                label: "Threat Severity",
+
+                data: scenario.severity,
+
+                backgroundColor: [
+                    "#3b82f6",
+                    "#3b82f6",
+                    "#f59e0b",
+                    "#ef4444",
+                    "#dc2626"
+                ],
+
+                borderWidth: 1
+            }]
+        },
+
+        options: {
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+
+                    labels: {
+
+                        color: "white"
+                    }
+                }
+            },
+
+            scales: {
+
+                x: {
+
+                    ticks: {
+
+                        color: "white"
+                    }
+                },
+
+                y: {
+
+                    beginAtZero: true,
+
+                    max: 100,
+
+                    ticks: {
+
+                        color: "white"
+                    }
+                }
+            }
+        }
+    });
     const feed =
         document.getElementById("incident-feed");
 

@@ -1,0 +1,195 @@
+body {
+
+    margin: 0;
+    font-family: Arial, sans-serif;
+
+    background:
+    linear-gradient(
+    180deg,
+    #071120,
+    #0b1220
+    );
+
+    color: #e5e7eb;
+}
+
+.container {
+
+    padding: 30px;
+}
+
+h1 {
+
+    color: #60a5fa;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+
+    color: #94a3b8;
+    margin-bottom: 25px;
+}
+
+.cards {
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.card {
+
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    padding: 20px;
+
+    box-shadow:
+    0 0 20px rgba(59,130,246,0.10);
+}
+
+.card p {
+
+    font-size: 30px;
+    font-weight: bold;
+    color: #60a5fa;
+}
+
+.panel {
+
+    margin-top: 25px;
+
+    background: #111827;
+
+    border: 1px solid #1f2937;
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    box-shadow:
+    0 0 20px rgba(59,130,246,0.10);
+}
+
+.panel h2 {
+
+    color: #60a5fa;
+    margin-top: 0;
+}
+
+#agents {
+
+    display: grid;
+
+    grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+
+    gap: 12px;
+}
+
+.agent {
+
+    background: #0f172a;
+
+    border: 1px solid #334155;
+
+    border-radius: 8px;
+
+    padding: 12px;
+
+    font-weight: bold;
+}
+
+select,
+button {
+
+    background: #0f172a;
+
+    color: white;
+
+    border: 1px solid #334155;
+
+    border-radius: 8px;
+
+    padding: 10px 14px;
+
+    cursor: pointer;
+
+    margin-right: 10px;
+}
+
+.feed-event {
+
+    margin-top: 10px;
+
+    padding: 12px;
+
+    background: #0f172a;
+
+    border-left: 4px solid #3b82f6;
+
+    border-radius: 6px;
+
+    animation: fadein .4s ease;
+}
+
+.timestamp {
+
+    color: #94a3b8;
+
+    font-size: 12px;
+
+    margin-bottom: 4px;
+}
+
+pre {
+
+    white-space: pre-wrap;
+
+    line-height: 1.7;
+}
+
+@keyframes fadein {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(10px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+#mitre-panel {
+
+    margin-top: 20px;
+
+}
+
+.mitre-item {
+
+    background: #0d1b36;
+
+    border-left: 4px solid #4da3ff;
+
+    padding: 12px;
+
+    margin-bottom: 10px;
+
+    border-radius: 8px;
+
+    font-family: monospace;
+
+    color: white;
+}
+.chart-container {
+
+    height: 350px;
+
+    width: 100%;
+}

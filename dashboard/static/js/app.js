@@ -30,11 +30,16 @@ Import-Module Mimikatz
 T1003 Credential Dumping
 `,
 
-        evidence: `
+evidence: `
 IP: 185.199.110.153
 Command: Import-Module Mimikatz
 MITRE: T1003
-`
+`,
+
+mitre: [
+    "T1003 Credential Dumping",
+    "T1059.001 PowerShell"
+]
     },
 
     "Ransomware": {
@@ -66,11 +71,16 @@ Ransom Note Found
 MITRE T1486
 `,
 
-        evidence: `
+evidence: `
 MITRE: T1486
 Encrypted Files
 Ransom Note Found
-`
+`,
+
+mitre: [
+    "T1486 Data Encrypted For Impact",
+    "T1490 Inhibit System Recovery"
+]
     },
 
     "Data Exfiltration": {
@@ -101,11 +111,16 @@ Large External Transfer
 Sensitive Data Exposure
 `,
 
-        evidence: `
+evidence: `
 External Connection
 Large Data Upload
 Possible Exfiltration
-`
+`,
+
+mitre: [
+    "T1041 Exfiltration Over C2 Channel",
+    "T1071 Application Layer Protocol"
+]
     }
 };
 
@@ -155,6 +170,10 @@ function simulateAttack() {
     feed.innerHTML = "";
 
     document.getElementById(
+    "mitre-panel"
+    ).innerHTML = "";
+
+    document.getElementById(
         "report-content"
     ).innerText = "";
 
@@ -201,21 +220,45 @@ function simulateAttack() {
                 "Compliance Agent"
             );
 
-        if (index >= scenario.events.length) {
+       if (index >= scenario.events.length) {
 
-            clearInterval(currentTimer);
+    clearInterval(currentTimer);
 
-            document.getElementById(
-                "report-content"
-            ).innerText = scenario.report;
+    document.getElementById(
+        "report-content"
+    ).innerText = scenario.report;
 
-            document.getElementById(
-                "evidence-content"
-            ).innerText = scenario.evidence;
+    document.getElementById(
+        "evidence-content"
+    ).innerText = scenario.evidence;
 
-            return;
+    const mitrePanel =
+        document.getElementById(
+            "mitre-panel"
+        );
+
+    scenario.mitre.forEach(
+        technique => {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+            div.className =
+                "mitre-item";
+
+            div.innerText =
+                technique;
+
+            mitrePanel.appendChild(
+                div
+            );
         }
+    );
 
+    return;
+}
         const div =
             document.createElement("div");
 

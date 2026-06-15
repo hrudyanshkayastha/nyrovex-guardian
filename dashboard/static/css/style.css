@@ -165,3 +165,25 @@ pre {
         transform: translateY(0);
     }
 }
+#mitre-panel {
+
+    margin-top: 20px;
+
+}
+
+.mitre-item {
+
+    background: #0d1b36;
+
+    border-left: 4px solid #4da3ff;
+
+    padding: 12px;
+
+    margin-bottom: 10px;
+
+    border-radius: 8px;
+
+    font-family: monospace;
+
+    color: white;
+}

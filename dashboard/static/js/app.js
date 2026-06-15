@@ -1,6 +1,7 @@
 const attackScenarios = {
 
     "Credential Dumping": {
+
         events: [
             "Alert Received",
             "Commander Activated",
@@ -37,6 +38,7 @@ MITRE: T1003
     },
 
     "Ransomware": {
+
         events: [
             "Alert Received",
             "Commander Activated",
@@ -54,30 +56,30 @@ Severity: Critical
 
 RISK ASSESSMENT
 Risk Score: 95
-Priority: P1
 
 COMPLIANCE
-Breach Notification Required
+Notification Required
 
 FORENSICS
 Encrypted Files Found
-Ransom Note Detected
-T1486
+Ransom Note Found
+MITRE T1486
 `,
 
         evidence: `
-Ransom Note: FOUND
 MITRE: T1486
-Status: Critical
+Encrypted Files
+Ransom Note Found
 `
     },
 
     "Data Exfiltration": {
+
         events: [
             "Alert Received",
             "Commander Activated",
             "Threat Agent Started",
-            "Outbound Traffic Detected",
+            "Outbound Transfer Detected",
             "Sensitive Data Identified",
             "IOC Extracted",
             "Compliance Review",
@@ -95,8 +97,8 @@ COMPLIANCE
 Potential GDPR Violation
 
 FORENSICS
-Large Data Transfer
-External IP Contact
+Large External Transfer
+Sensitive Data Exposure
 `,
 
         evidence: `
@@ -109,7 +111,33 @@ Possible Exfiltration
 
 let currentTimer = null;
 
+function resetAgents() {
+
+    document.getElementById("commander").innerHTML =
+        "🟢 Commander Agent";
+
+    document.getElementById("threat").innerHTML =
+        "🟢 Threat Agent";
+
+    document.getElementById("risk").innerHTML =
+        "🟢 Risk Agent";
+
+    document.getElementById("compliance").innerHTML =
+        "🟢 Compliance Agent";
+
+    document.getElementById("forensics").innerHTML =
+        "🟢 Digital Forensics Agent";
+}
+
+function activateAgent(id, name) {
+
+    document.getElementById(id).innerHTML =
+        "🟡 " + name + " Working";
+}
+
 function simulateAttack() {
+
+    resetAgents();
 
     const attack =
         document.getElementById("attack-type").value;
@@ -122,16 +150,52 @@ function simulateAttack() {
 
     feed.innerHTML = "";
 
-    document.getElementById("report-content").innerText = "";
-    document.getElementById("evidence-content").innerText = "";
+    document.getElementById(
+        "report-content"
+    ).innerText = "";
+
+    document.getElementById(
+        "evidence-content"
+    ).innerText = "";
 
     let index = 0;
 
     if (currentTimer) {
+
         clearInterval(currentTimer);
     }
 
     currentTimer = setInterval(() => {
+
+        if (index === 0)
+            activateAgent(
+                "commander",
+                "Commander Agent"
+            );
+
+        if (index === 2)
+            activateAgent(
+                "forensics",
+                "Digital Forensics Agent"
+            );
+
+        if (index === 4)
+            activateAgent(
+                "threat",
+                "Threat Agent"
+            );
+
+        if (index === 5)
+            activateAgent(
+                "risk",
+                "Risk Agent"
+            );
+
+        if (index === 6)
+            activateAgent(
+                "compliance",
+                "Compliance Agent"
+            );
 
         if (index >= scenario.events.length) {
 
@@ -151,8 +215,7 @@ function simulateAttack() {
         const div =
             document.createElement("div");
 
-        div.className =
-            "feed-event";
+        div.className = "feed-event";
 
         div.innerHTML = `
             <div class="timestamp">

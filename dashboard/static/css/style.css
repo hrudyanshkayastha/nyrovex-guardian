@@ -1,7 +1,6 @@
 body {
 
     margin: 0;
-
     font-family: Arial, sans-serif;
 
     background:
@@ -22,61 +21,37 @@ body {
 h1 {
 
     color: #60a5fa;
-
     margin-bottom: 5px;
 }
 
 .subtitle {
 
     color: #94a3b8;
-
     margin-bottom: 25px;
 }
 
 .cards {
 
     display: grid;
-
-    grid-template-columns:
-    repeat(4, 1fr);
-
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
 }
 
 .card {
 
     background: #111827;
-
     border: 1px solid #1f2937;
-
     border-radius: 12px;
-
     padding: 20px;
 
     box-shadow:
     0 0 20px rgba(59,130,246,0.10);
-
-    transition: 0.3s;
-}
-
-.card:hover {
-
-    transform: translateY(-4px);
-}
-
-.card h3 {
-
-    margin-top: 0;
-
-    color: #f8fafc;
 }
 
 .card p {
 
-    font-size: 32px;
-
+    font-size: 30px;
     font-weight: bold;
-
     color: #60a5fa;
 }
 
@@ -98,9 +73,31 @@ h1 {
 
 .panel h2 {
 
-    margin-top: 0;
-
     color: #60a5fa;
+    margin-top: 0;
+}
+
+#agents {
+
+    display: grid;
+
+    grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+
+    gap: 12px;
+}
+
+.agent {
+
+    background: #0f172a;
+
+    border: 1px solid #334155;
+
+    border-radius: 8px;
+
+    padding: 12px;
+
+    font-weight: bold;
 }
 
 select,
@@ -116,14 +113,9 @@ button {
 
     padding: 10px 14px;
 
-    margin-right: 10px;
-
     cursor: pointer;
-}
 
-button:hover {
-
-    background: #1e293b;
+    margin-right: 10px;
 }
 
 .feed-event {
@@ -138,7 +130,7 @@ button:hover {
 
     border-radius: 6px;
 
-    animation: fadein 0.4s ease;
+    animation: fadein .4s ease;
 }
 
 .timestamp {
@@ -147,16 +139,14 @@ button:hover {
 
     font-size: 12px;
 
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 
 pre {
 
     white-space: pre-wrap;
 
-    color: #e5e7eb;
-
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 @keyframes fadein {

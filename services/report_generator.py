@@ -7,6 +7,7 @@ def generate_report(
     threat_findings,
     risk_findings,
     compliance_findings,
+    forensics_findings,
     overall_confidence,
     timeline
 ):
@@ -48,6 +49,12 @@ COMPLIANCE ASSESSMENT
 --------------------------------------------------
 
 {compliance_findings}
+
+--------------------------------------------------
+FORENSICS ASSESSMENT
+--------------------------------------------------
+
+{forensics_findings}
 
 --------------------------------------------------
 RECOMMENDED ACTIONS

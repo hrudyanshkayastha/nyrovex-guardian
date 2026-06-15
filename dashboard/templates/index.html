@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Nyrovex Guardian</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>NYROVEX GUARDIAN</h1>
+        <p class="subtitle">
+            Autonomous Cyber Defense Platform
+        </p>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Critical Incidents</h3>
+                <p>{{ critical_incidents }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Active Cases</h3>
+                <p>{{ active_cases }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Threat Level</h3>
+                <p>{{ threat_level }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Confidence</h3>
+                <p>{{ confidence }}%</p>
+            </div>
+
+        </div>
+
+        <div class="panel">
+
+            <h2>Attack Simulation</h2>
+
+            <select id="attack-type">
+
+                <option>Credential Dumping</option>
+
+                <option>Ransomware</option>
+
+                <option>Data Exfiltration</option>
+
+            </select>
+
+            <button onclick="simulateAttack()">
+                Simulate Incident
+            </button>
+
+        </div>
+
+        <div class="panel">
+
+            <h2>LIVE INCIDENT FEED</h2>
+
+            <div id="incident-feed"></div>
+
+        </div>
+
+        <div class="panel">
+
+            <h2>Evidence Locker</h2>
+
+            <pre id="evidence-content"></pre>
+
+        </div>
+
+        <div class="panel">
+
+            <h2>Executive Report</h2>
+
+            <pre id="report-content"></pre>
+
+        </div>
+
+    </div>
+
+    <script src="/static/js/app.js"></script>
+
+</body>
+
+</html>

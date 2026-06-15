@@ -45,6 +45,25 @@ Audit Required: Yes
 Confidence: 85
 """,
 
+    forensics_findings="""
+Evidence Summary:
+- Import-Module Mimikatz
+
+IOCs:
+- 185.199.110.153
+
+MITRE:
+- T1003
+- T1059.001
+
+Containment:
+- Isolate Host
+- Reset Credentials
+
+Confidence:
+88%
+""",
+
     overall_confidence="87%",
 
     timeline="""

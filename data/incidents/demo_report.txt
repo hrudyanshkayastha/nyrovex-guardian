@@ -1,0 +1,17 @@
+
+NYROVEX GUARDIAN INCIDENT REPORT
+
+Incident:
+Credential Dumping
+
+Severity:
+High
+
+MITRE:
+T1003 Credential Dumping
+
+IOC:
+185.199.110.153
+
+Status:
+Contained

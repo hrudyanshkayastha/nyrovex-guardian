@@ -148,6 +148,10 @@ function simulateAttack() {
     const feed =
         document.getElementById("incident-feed");
 
+    console.log("Attack:", attack);
+    console.log("Scenario:", scenario);
+    console.log("Feed:", feed);
+ 
     feed.innerHTML = "";
 
     document.getElementById(

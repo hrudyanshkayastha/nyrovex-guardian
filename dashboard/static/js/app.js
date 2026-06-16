@@ -33,6 +33,14 @@ const scenarioData = {
             "[RISK] Threat score 87 assigned"
         ],
 
+        timeline: [
+            "14:02 Mimikatz detected",
+            "14:03 LSASS dump discovered",
+            "14:04 Credential theft confirmed",
+            "14:05 MITRE T1003 mapped",
+            "14:07 Endpoint isolated"
+        ],
+
         mitre: [
             {
                 tactic: "Credential Access",
@@ -74,6 +82,14 @@ const scenarioData = {
             "[FORENSICS] LockBit identified",
             "[RISK] Threat score 95 assigned"
         ],
+         
+        timeline: [
+            "13:01 Encryption activity detected",
+            "13:02 LockBit identified",
+            "13:03 File system impact confirmed",
+            "13:05 MITRE T1486 mapped",
+            "13:07 Host isolated"
+       ],
 
         mitre: [
             {
@@ -116,6 +132,14 @@ const scenarioData = {
             "[FORENSICS] Exfiltration confirmed",
             "[RISK] Threat score 90 assigned"
         ],
+
+        timeline: [
+            "15:10 DNS beacon detected",
+            "15:11 Suspicious outbound traffic",
+            "15:13 Data staging identified",
+            "15:15 MITRE T1048 mapped",
+            "15:17 Transfer blocked"
+       ],
 
         mitre: [
             {
@@ -268,6 +292,38 @@ function runScenario(name, id){
                 item;
 
             evidencePanel.appendChild(
+                div
+            );
+        }
+    );
+}
+
+    // Timeline
+
+const timelinePanel =
+    document.getElementById(
+        "timeline-panel"
+    );
+
+if(timelinePanel){
+
+    timelinePanel.innerHTML = "";
+
+    scenario.timeline.forEach(
+        item => {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+            div.className =
+                "ng-timeline-item";
+
+            div.innerText =
+                item;
+
+            timelinePanel.appendChild(
                 div
             );
         }

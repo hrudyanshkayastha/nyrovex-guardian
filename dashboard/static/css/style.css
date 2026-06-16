@@ -103,3 +103,14 @@ body { font-family: 'Courier New', monospace; background: #060810; }
     font-size:12px;
     color:#c9d1d9;
 }
+.ng-timeline-item{
+
+    padding:8px;
+    margin-bottom:6px;
+
+    border-left:3px solid #58a6ff;
+
+    font-size:11px;
+
+    color:#c9d1d9;
+}

@@ -438,9 +438,11 @@ function loadScenario(name,id){
 function generateReport(){
 
     const incident =
-        document.getElementById(
-            "current-incident"
-        ).innerText;
+    document.getElementById(
+        "current-incident"
+    )
+    .innerText
+    .replace("Current: ","");
 
     const threat =
         document.getElementById(
@@ -503,49 +505,28 @@ Platform:
 Nyrovex Guardian SOC
 `;
 
-    const { jsPDF } = window.jspdf;
-
-const doc =
-    new jsPDF();
-
+     const doc =
+    new window.jspdf.jsPDF();
 doc.setFontSize(18);
+
 doc.text(
-    "NYROVEX INCIDENT REPORT",
+    "NYROVEX EXECUTIVE INCIDENT REPORT",
     10,
     15
 );
 
-doc.setFontSize(12);
+doc.setFontSize(11);
+
+const lines =
+    doc.splitTextToSize(
+        report,
+        180
+    );
 
 doc.text(
-    incident,
+    lines,
     10,
     30
-);
-
-doc.text(
-    "Threat Score: " + threat,
-    10,
-    40
-);
-
-doc.text(
-    "Generated: " +
-    new Date().toLocaleString(),
-    10,
-    50
-);
-
-doc.text(
-    "IOCs:",
-    10,
-    65
-);
-
-doc.text(
-    iocs,
-    10,
-    75
 );
 
 doc.save(

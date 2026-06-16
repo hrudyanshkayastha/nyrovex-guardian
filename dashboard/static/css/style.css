@@ -90,3 +90,8 @@ body { font-family: 'Courier New', monospace; background: #060810; }
 .as-meta { font-size: 9px; color: #6e7681; margin-top: 2px; }
 .as-badge { font-size: 8px; padding: 2px 6px; border-radius: 3px; }
 
+.incident-active{
+    border:1px solid #58a6ff;
+    box-shadow:0 0 12px rgba(88,166,255,.35);
+    background:rgba(88,166,255,.08);
+}

@@ -9,52 +9,116 @@ function tick(){
 tick(); setInterval(tick, 1000);
 const scenarioData = {
 
+
     "Credential Dumping": {
+
         threat: 87,
+
         iocs: [
             "185.199.110.153",
             "Import-Module Mimikatz",
             "T1003 Credential Dumping"
         ],
+
         terminal: [
             "[COMMANDER] Incident received",
             "[FORENSICS] Mimikatz detected",
             "[THREAT] Credential theft confirmed",
             "[RISK] Threat score 87 assigned"
+        ],
+
+        mitre: [
+            {
+                tactic: "Credential Access",
+                score: 8,
+                color: "#f85149"
+            },
+            {
+                tactic: "Execution",
+                score: 7,
+                color: "#e3b341"
+            },
+            {
+                tactic: "Defense Evasion",
+                score: 5,
+                color: "#58a6ff"
+            }
         ]
     },
 
-    "Ransomware": {
+    "Ransomware Deploy": {
+
         threat: 95,
+
         iocs: [
             "ransom_note.txt",
             "Encrypted Files",
             "T1486"
         ],
+
         terminal: [
             "[COMMANDER] Incident received",
             "[THREAT] Mass encryption detected",
             "[FORENSICS] LockBit identified",
             "[RISK] Threat score 95 assigned"
+        ],
+
+        mitre: [
+            {
+                tactic: "Impact",
+                score: 10,
+                color: "#f85149"
+            },
+            {
+                tactic: "Execution",
+                score: 8,
+                color: "#e3b341"
+            },
+            {
+                tactic: "Persistence",
+                score: 6,
+                color: "#58a6ff"
+            }
         ]
     },
 
     "Data Exfiltration": {
+
         threat: 90,
+
         iocs: [
             "DNS Tunnel",
             "External Connection",
             "T1048"
         ],
+
         terminal: [
             "[COMMANDER] Incident received",
             "[THREAT] DNS tunnel detected",
             "[FORENSICS] Exfiltration confirmed",
             "[RISK] Threat score 90 assigned"
+        ],
+
+        mitre: [
+            {
+                tactic: "Exfiltration",
+                score: 10,
+                color: "#f85149"
+            },
+            {
+                tactic: "Command & Control",
+                score: 7,
+                color: "#e3b341"
+            },
+            {
+                tactic: "Collection",
+                score: 5,
+                color: "#58a6ff"
+            }
         ]
     }
-};
 
+};
 const termLines = [
   {cls:'t-info', txt:'[COMMANDER] Monitoring all agent channels...'},
   {cls:'t-warn', txt:'[THREAT] Anomalous process tree detected'},
@@ -102,9 +166,26 @@ function runScenario(name, id){
 
     const scenario =
         scenarioData[name];
+    document.getElementById(
+        "current-incident"
+    ).innerText =
+        "Current: " + name;
 
     if(!scenario)
         return;
+
+     document
+     .querySelectorAll(".ng-incident-item")
+     .forEach(item=>{
+         item.classList.remove("incident-active");
+     });
+
+     if(id){
+         document
+         .getElementById(id)
+         .classList
+         .add("incident-active");
+     }
 
     // Threat Score
 
@@ -171,6 +252,52 @@ function runScenario(name, id){
         }
     );
 
+    // MITRE Panel
+
+const mitrePanel =
+    document.getElementById(
+        "mitre-panel"
+    );
+
+mitrePanel.innerHTML = "";
+
+scenario.mitre.forEach(
+    item => {
+
+        const row =
+            document.createElement(
+                "div"
+            );
+
+        row.className =
+            "ng-mitre-row";
+
+        row.innerHTML = `
+            <span class="ng-mitre-tactic">
+                ${item.tactic}
+            </span>
+
+            <div class="ng-mitre-bar-wrap">
+                <div
+                    class="ng-mitre-bar"
+                    style="
+                        width:${item.score * 10}%;
+                        background:${item.color};
+                    ">
+                </div>
+            </div>
+
+            <span class="ng-mitre-score">
+                ${item.score}
+            </span>
+        `;
+
+        mitrePanel.appendChild(
+            row
+        );
+    }
+);
+
     // Status Badge
 
     document.getElementById(
@@ -187,14 +314,66 @@ function runScenario(name, id){
 
     }, 2000);
 
-    console.log(
-        "Scenario executed:",
-        name
-    );
-}
-function loadScenario(name){
+    }
+
+function loadScenario(name,id){
 
     console.log("Loading:", name);
 
-    runScenario(name);
+    runScenario(name,id);
+}
+function generateReport(){
+
+    const incident =
+        document.getElementById(
+            "current-incident"
+        ).innerText;
+
+    const threat =
+        document.getElementById(
+            "m-threat"
+        ).innerText;
+
+    const iocs =
+        Array.from(
+            document.querySelectorAll(
+                "#ioc-list .ng-ioc-item"
+            )
+        )
+        .map(x => x.innerText)
+        .join("\n");
+
+    const report = `
+NYROVEX INCIDENT REPORT
+=======================
+
+Incident:
+${incident}
+
+Threat Score:
+${threat}
+
+Timestamp:
+${new Date().toISOString()}
+
+Indicators of Compromise:
+${iocs}
+`;
+
+    const blob =
+        new Blob(
+            [report],
+            {type:"text/plain"}
+        );
+
+    const a =
+        document.createElement("a");
+
+    a.href =
+        URL.createObjectURL(blob);
+
+    a.download =
+        "incident_report.txt";
+
+    a.click();
 }

@@ -98,7 +98,7 @@ href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min
             <span class="ng-panel-badge live">● LIVE</span>
           </div>
           <div id="incident-feed">
-            <div class="ng-incident-item"onclick="loadScenario('Credential Dumping')">
+            <div class="ng-incident-item"onclick="loadScenario('Credential Dumping','inc1')"id="inc1">
               <span class="ng-sev sev-crit">CRIT</span>
               <div style="flex:1">
                 <div class="ng-inc-title">Credential Dumping — Mimikatz</div>
@@ -106,7 +106,7 @@ href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min
               </div>
               <span class="ng-inc-status st-investigating">INVESTIGATING</span>
             </div>
-            <div class="ng-incident-item"onclick="loadScenario('Ransomware Deploy')">
+            <div class="ng-incident-item"onclick="loadScenario('Ransomware Deploy','inc2')"id="inc2">
               <span class="ng-sev sev-crit">CRIT</span>
               <div style="flex:1">
                 <div class="ng-inc-title">Ransomware Payload Detected</div>
@@ -114,7 +114,7 @@ href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min
               </div>
               <span class="ng-inc-status st-new">NEW</span>
             </div>
-            <div class="ng-incident-item"onclick="loadScenario('Data Exfiltration')">
+            <div class="ng-incident-item"onclick="loadScenario('Data Exfiltration','inc3')"id="inc3">
               <span class="ng-sev sev-high">HIGH</span>
               <div style="flex:1">
                 <div class="ng-inc-title">Data Exfiltration via DNS Tunnel</div>
@@ -205,6 +205,9 @@ href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min
             <span class="ng-panel-title">ATTACK SIMULATOR</span>
             <span class="ng-panel-badge live" id="sim-status">READY</span>
           </div>
+          <div id="current-incident"style="color:#58a6ff;font-size:11px;margin-bottom:10px;">
+                Current: None
+         </div>
           <div class="attack-scenario" id="sc1" onclick="runScenario('Credential Dumping','sc1')">
             <div><div class="as-name">Credential Dumping</div><div class="as-meta">Mimikatz · LSASS dump · T1003</div></div>
             <span class="as-badge" style="background:#3d0f0f;color:#f85149;border:0.5px solid #da3633">CRIT</span>
@@ -252,7 +255,9 @@ href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min
             <div class="ng-ioc-item"><span>ransom_note.txt</span><span class="ng-ioc-type">ARTIFACT</span></div>
           </div>
           <div style="margin-top:10px;display:flex;gap:6px">
-            <button class="ng-btn">Gen Report</button>
+            <button class="ng-btn"onclick="generateReport()">
+             Gen Report
+           </button>
             <button class="ng-btn">ALCDP-X Action</button>
           </div>
         </div>

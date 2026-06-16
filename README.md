@@ -54,29 +54,56 @@ The platform performs:
 | Compliance Agent | Governance validation             |
 | Risk Agent       | Risk assessment and scoring       |
 
----
-
-# 🏗️ System Architecture
+## System Architecture
 
 ```text
-Attack Simulation Layer
-            │
-            ▼
-    Investigation Engine
-            │
- ┌──────────┼──────────┐
- ▼          ▼          ▼
-Threat   Forensics   Risk
-Agent     Agent      Agent
-            │
-            ▼
-     Evidence Locker
-            │
-            ▼
-    Incident Timeline
-            │
-            ▼
-   Executive PDF Reports
+Attack Simulation
+        │
+        ▼
+Investigation Engine
+        │
+ ┌──────┼──────┐
+ ▼      ▼      ▼
+Threat  Risk  Compliance
+Agent   Agent  Agent
+        │
+        ▼
+Forensics Agent
+        │
+        ▼
+Evidence Locker
+        │
+        ▼
+MITRE ATT&CK Mapping
+        │
+        ▼
+Executive Reports
+---
+
+## System Architecture
+
+```text
+Attack Simulation
+        │
+        ▼
+Investigation Engine
+        │
+ ┌──────┼──────┐
+ ▼      ▼      ▼
+Threat  Risk  Compliance
+Agent   Agent  Agent
+        │
+        ▼
+Forensics Agent
+        │
+        ▼
+Evidence Locker
+        │
+        ▼
+MITRE ATT&CK Mapping
+        │
+        ▼
+Executive Reports
 ```
 
 ---
@@ -90,21 +117,21 @@ Agent     Agent      Agent
 
 ---
 
-# 📸 Screenshots
+## Screenshots
 
-## Dashboard Overview
+### Dashboard Overview
 
 ![Dashboard](screenshots/dashboard.png)
 
-## Investigation Workflow
+### Incident Investigation
 
 ![Investigation](screenshots/investigation.png)
 
-## Platform Performance
+### Platform Performance
 
-![Performance](screenshots/results.png)
+![Results](screenshots/results.png)
+
 ---
-
 # 🛠️ Technology Stack
 
 ### Frontend

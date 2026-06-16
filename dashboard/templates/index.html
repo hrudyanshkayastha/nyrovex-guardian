@@ -210,6 +210,31 @@ href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min
     </div>
 
 </div>
+            <div class="ng-panel">
+    <div class="ng-panel-header">
+        <span class="ng-panel-title">
+            ANALYST NOTES
+        </span>
+    </div>
+
+    <textarea
+        id="analyst-notes"
+        style="
+        width:100%;
+        height:120px;
+        background:#0d1117;
+        color:#c9d1d9;
+        border:1px solid #30363d;
+        padding:10px;
+        resize:none;">
+    </textarea>
+
+    <button
+        class="ng-btn"
+        onclick="saveNotes()">
+        Save Notes
+    </button>
+</div>
             <div class="ng-agent">
               <div class="ng-agent-dot ag-online"></div>
               <div>
@@ -239,6 +264,11 @@ href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min
           <div id="current-incident"style="color:#58a6ff;font-size:11px;margin-bottom:10px;">
                 Current: None
          </div>
+         <div id="investigation-status"style="color:#e3b341;font-size:11px;margin-bottom:10px;font-weight:bold;">
+
+              Status: INVESTIGATING
+
+          </div>
           <div class="attack-scenario" id="sc1" onclick="runScenario('Credential Dumping','sc1')">
             <div><div class="as-name">Credential Dumping</div><div class="as-meta">Mimikatz · LSASS dump · T1003</div></div>
             <span class="as-badge" style="background:#3d0f0f;color:#f85149;border:0.5px solid #da3633">CRIT</span>
@@ -312,6 +342,7 @@ href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min
 
 </div><!-- end ng-root -->
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="/static/js/app.js"></script>
 </body>
 </html>

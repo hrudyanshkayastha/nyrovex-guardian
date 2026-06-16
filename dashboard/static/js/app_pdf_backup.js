@@ -503,54 +503,22 @@ Platform:
 Nyrovex Guardian SOC
 `;
 
-    const { jsPDF } = window.jspdf;
+    const blob =
+        new Blob(
+            [report],
+            {type:"text/plain"}
+        );
 
-const doc =
-    new jsPDF();
+    const a =
+        document.createElement("a");
 
-doc.setFontSize(18);
-doc.text(
-    "NYROVEX INCIDENT REPORT",
-    10,
-    15
-);
+    a.href =
+        URL.createObjectURL(blob);
 
-doc.setFontSize(12);
+    a.download =
+        "incident_report.txt";
 
-doc.text(
-    incident,
-    10,
-    30
-);
-
-doc.text(
-    "Threat Score: " + threat,
-    10,
-    40
-);
-
-doc.text(
-    "Generated: " +
-    new Date().toLocaleString(),
-    10,
-    50
-);
-
-doc.text(
-    "IOCs:",
-    10,
-    65
-);
-
-doc.text(
-    iocs,
-    10,
-    75
-);
-
-doc.save(
-    "Nyrovex_Incident_Report.pdf"
-);
+    a.click();
 }
 function executeALCDPAction(){
 

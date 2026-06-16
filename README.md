@@ -92,18 +92,17 @@ Agent     Agent      Agent
 
 # 📸 Screenshots
 
-### Dashboard Overview
+## Dashboard Overview
 
 ![Dashboard](screenshots/dashboard.png)
 
-### Investigation Workflow
+## Investigation Workflow
 
 ![Investigation](screenshots/investigation.png)
 
-### Platform Performance
+## Platform Performance
 
 ![Performance](screenshots/results.png)
-
 ---
 
 # 🛠️ Technology Stack

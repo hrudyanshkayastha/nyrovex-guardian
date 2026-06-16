@@ -20,6 +20,12 @@ const scenarioData = {
             "T1003 Credential Dumping"
         ],
 
+        evidence: [
+            "lsass.dmp",
+            "mimikatz.log",
+            "powershell_history.txt"
+       ],
+
         terminal: [
             "[COMMANDER] Incident received",
             "[FORENSICS] Mimikatz detected",
@@ -56,6 +62,12 @@ const scenarioData = {
             "T1486"
         ],
 
+        evidence: [
+            "ransom_note.txt",
+            "encrypted_file_list.csv",
+            "lockbit_payload.bin"
+       ],
+
         terminal: [
             "[COMMANDER] Incident received",
             "[THREAT] Mass encryption detected",
@@ -91,6 +103,12 @@ const scenarioData = {
             "External Connection",
             "T1048"
         ],
+
+        evidence: [
+            "dns_capture.pcap",
+            "outbound_transfer.log",
+            "beacon_analysis.json"
+       ],
 
         terminal: [
             "[COMMANDER] Incident received",
@@ -204,6 +222,7 @@ function runScenario(name, id){
     iocPanel.innerHTML = "";
 
     scenario.iocs.forEach(
+
         ioc => {
 
             const div =
@@ -222,6 +241,39 @@ function runScenario(name, id){
             );
         }
     );
+
+     // Evidence Locker
+
+     const evidencePanel =
+         document.getElementById(
+             "evidence-locker"
+     );
+
+     if(evidencePanel){
+
+         evidencePanel.innerHTML = "";
+
+         scenario.evidence.forEach(
+             item => {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+            div.className =
+                "ng-evidence-item";
+
+            div.innerText =
+                item;
+
+            evidencePanel.appendChild(
+                div
+            );
+        }
+    );
+}
+
 
     // Terminal
 
@@ -343,9 +395,27 @@ function generateReport(){
         .map(x => x.innerText)
         .join("\n");
 
-    const report = `
-NYROVEX INCIDENT REPORT
-=======================
+const evidence =
+    Array.from(
+        document.querySelectorAll(
+            "#evidence-locker .ng-evidence-item"
+        )
+    )
+    .map(x => x.innerText)
+    .join("\n");
+
+const mitre =
+    Array.from(
+        document.querySelectorAll(
+            ".ng-mitre-tactic"
+        )
+    )
+    .map(x => x.innerText)
+    .join("\n");
+
+const report = `
+NYROVEX EXECUTIVE INCIDENT REPORT
+================================
 
 Incident:
 ${incident}
@@ -353,11 +423,23 @@ ${incident}
 Threat Score:
 ${threat}
 
-Timestamp:
+Generated:
 ${new Date().toISOString()}
+
+MITRE ATT&CK Mapping:
+${mitre}
+
+Evidence Collected:
+${evidence}
 
 Indicators of Compromise:
 ${iocs}
+
+Response Status:
+ALCDP-X Containment Executed
+
+Platform:
+Nyrovex Guardian SOC
 `;
 
     const blob =
@@ -376,4 +458,48 @@ ${iocs}
         "incident_report.txt";
 
     a.click();
+}
+function executeALCDPAction(){
+
+    const terminal =
+        document.getElementById(
+            "terminal"
+        );
+
+    const actions = [
+
+        "[ALCDP-X] Host isolated",
+
+        "[ALCDP-X] IOC blocked",
+
+        "[ALCDP-X] User account disabled",
+
+        "[ALCDP-X] Firewall rules updated",
+
+        "[ALCDP-X] Containment complete"
+    ];
+
+    actions.forEach(
+        msg => {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+            div.className =
+                "ng-terminal-line t-ok";
+
+            div.innerText =
+                msg;
+
+            terminal.appendChild(
+                div
+            );
+        }
+    );
+
+    console.log(
+        "ALCDP-X executed"
+    );
 }

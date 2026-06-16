@@ -1,352 +1,129 @@
-const attackScenarios = {
+
+function pad(n){ return n.toString().padStart(2,'0'); }
+function tick(){
+  const n = new Date();
+  const s = pad(n.getUTCHours())+':'+pad(n.getUTCMinutes())+':'+pad(n.getUTCSeconds())+' UTC';
+  document.getElementById('ng-clock').textContent = s;
+  document.getElementById('ng-footer-time').textContent = 'Session: '+s;
+}
+tick(); setInterval(tick, 1000);
+const scenarioData = {
 
     "Credential Dumping": {
-
-        events: [
-            "Alert Received",
-            "Commander Activated",
-            "Digital Forensics Started",
-            "Mimikatz Detected",
-            "IOC Extracted",
-            "MITRE T1003 Mapped",
-            "Risk Assessment Completed",
-            "Executive Report Generated"
+        threat: 87,
+        iocs: [
+            "185.199.110.153",
+            "Import-Module Mimikatz",
+            "T1003 Credential Dumping"
         ],
-
-        report: `
-THREAT ASSESSMENT
-Severity: High
-
-RISK ASSESSMENT
-Risk Score: 85
-Priority: P1
-
-COMPLIANCE
-GDPR Impact: Yes
-
-FORENSICS
-Import-Module Mimikatz
-185.199.110.153
-T1003 Credential Dumping
-`,
-
-evidence: `
-IP: 185.199.110.153
-Command: Import-Module Mimikatz
-MITRE: T1003
-`,
-
-mitre: [
-    "T1003 Credential Dumping",
-    "T1059.001 PowerShell"
-],
-
-severity: [
-    30,
-    45,
-    60,
-    75,
-    85
-]
+        terminal: [
+            "[COMMANDER] Incident received",
+            "[FORENSICS] Mimikatz detected",
+            "[THREAT] Credential theft confirmed",
+            "[RISK] Threat score 87 assigned"
+        ]
     },
 
     "Ransomware": {
-
-        events: [
-            "Alert Received",
-            "Commander Activated",
-            "Threat Agent Started",
-            "Mass File Encryption Detected",
-            "T1486 Identified",
-            "Risk Assessment Completed",
-            "Compliance Review",
-            "Executive Report Generated"
+        threat: 95,
+        iocs: [
+            "ransom_note.txt",
+            "Encrypted Files",
+            "T1486"
         ],
-
-        report: `
-THREAT ASSESSMENT
-Severity: Critical
-
-RISK ASSESSMENT
-Risk Score: 95
-
-COMPLIANCE
-Notification Required
-
-FORENSICS
-Encrypted Files Found
-Ransom Note Found
-MITRE T1486
-`,
-
-evidence: `
-MITRE: T1486
-Encrypted Files
-Ransom Note Found
-`,
-
-mitre: [
-    "T1486 Data Encrypted For Impact",
-    "T1490 Inhibit System Recovery"
-],
-
-severity: [
-    40,
-    60,
-    80,
-    90,
-    95
-]
+        terminal: [
+            "[COMMANDER] Incident received",
+            "[THREAT] Mass encryption detected",
+            "[FORENSICS] LockBit identified",
+            "[RISK] Threat score 95 assigned"
+        ]
     },
 
     "Data Exfiltration": {
-
-        events: [
-            "Alert Received",
-            "Commander Activated",
-            "Threat Agent Started",
-            "Outbound Transfer Detected",
-            "Sensitive Data Identified",
-            "IOC Extracted",
-            "Compliance Review",
-            "Executive Report Generated"
+        threat: 90,
+        iocs: [
+            "DNS Tunnel",
+            "External Connection",
+            "T1048"
         ],
-
-        report: `
-THREAT ASSESSMENT
-Severity: Critical
-
-RISK ASSESSMENT
-Risk Score: 90
-
-COMPLIANCE
-Potential GDPR Violation
-
-FORENSICS
-Large External Transfer
-Sensitive Data Exposure
-`,
-
-evidence: `
-External Connection
-Large Data Upload
-Possible Exfiltration
-`,
-
-mitre: [
-    "T1041 Exfiltration Over C2 Channel",
-    "T1071 Application Layer Protocol"
-],
-
-severity: [
-    20,
-    40,
-    55,
-    75,
-    90
-]
+        terminal: [
+            "[COMMANDER] Incident received",
+            "[THREAT] DNS tunnel detected",
+            "[FORENSICS] Exfiltration confirmed",
+            "[RISK] Threat score 90 assigned"
+        ]
     }
 };
 
-let currentTimer = null;
+const termLines = [
+  {cls:'t-info', txt:'[COMMANDER] Monitoring all agent channels...'},
+  {cls:'t-warn', txt:'[THREAT] Anomalous process tree detected'},
+  {cls:'t-err',  txt:'[FORENSICS] New IOC extracted: 10.0.0.55'},
+  {cls:'t-ok',   txt:'[RISK] Threat score updated: 87 → 89'},
+  {cls:'t-info', txt:'[COMPLIANCE] Audit log snapshot saved'},
+  {cls:'t-warn', txt:'[THREAT] DNS beacon interval: 30s'},
+  {cls:'t-info', txt:'[FORENSICS] MITRE T1059.003 confirmed'},
+  {cls:'t-ok',   txt:'[COMMANDER] Agent sync complete'},
+];
+let ti = 0;
+function addTermLine(){
+  const t = document.getElementById('terminal');
+  if(!t) return;
+  const items = t.querySelectorAll('.ng-terminal-line');
+  const caret = items[items.length - 1];
+  const l = termLines[ti % termLines.length]; ti++;
+  const d = document.createElement('div');
+  d.className = 'ng-terminal-line ' + l.cls;
+  d.textContent = l.txt;
+  t.insertBefore(d, caret);
+  if(t.querySelectorAll('.ng-terminal-line').length > 14){
+    t.removeChild(t.querySelector('.ng-terminal-line:not(:last-child)'));
+  }
+}
+setInterval(addTermLine, 3200);
 
-let severityChart = null;
-
-function resetAgents() {
-
-    document.getElementById("commander").innerHTML =
-        "🟢 Commander Agent";
-
-    document.getElementById("threat").innerHTML =
-        "🟢 Threat Agent";
-
-    document.getElementById("risk").innerHTML =
-        "🟢 Risk Agent";
-
-    document.getElementById("compliance").innerHTML =
-        "🟢 Compliance Agent";
-
-    document.getElementById("forensics").innerHTML =
-        "🟢 Digital Forensics Agent";
+function triggerAlert(){
+  const m = document.getElementById('m-incidents');
+  m.textContent = parseInt(m.textContent) + 1;
+  const b = document.getElementById('inc-badge');
+  b.textContent = parseInt(b.textContent) + 1;
+  const mi = document.getElementById('m-iocs');
+  mi.textContent = parseInt(mi.textContent) + 3;
+  const t = document.getElementById('terminal');
+  const items = t.querySelectorAll('.ng-terminal-line');
+  const caret = items[items.length - 1];
+  const d = document.createElement('div');
+  d.className = 'ng-terminal-line t-err';
+  d.textContent = '[COMMANDER] ⚠ SIMULATED ATTACK INJECTED — spawning agents';
+  t.insertBefore(d, caret);
 }
 
-function activateAgent(id, name) {
-
-    document.getElementById(id).innerHTML =
-        "🟡 " + name + " Working";
-}
-
-function simulateAttack() {
-
-    resetAgents();
-
-    const attack =
-        document.getElementById("attack-type").value;
+function runScenario(name, id){
 
     const scenario =
-        attackScenarios[attack];
+        scenarioData[name];
 
-    const ctx =
-    document.getElementById(
-        "severityChart"
-    );
+    if(!scenario)
+        return;
 
-if (severityChart) {
-
-    severityChart.destroy();
-}
-
-severityChart =
-    new Chart(ctx, {
-
-        type: "bar",
-
-        data: {
-
-            labels: [
-                "Alert",
-                "Analysis",
-                "Forensics",
-                "Risk",
-                "Report"
-            ],
-
-            datasets: [{
-
-                label: "Threat Severity",
-
-                data: scenario.severity,
-
-                backgroundColor: [
-                    "#3b82f6",
-                    "#3b82f6",
-                    "#f59e0b",
-                    "#ef4444",
-                    "#dc2626"
-                ],
-
-                borderWidth: 1
-            }]
-        },
-
-        options: {
-
-            responsive: true,
-
-            plugins: {
-
-                legend: {
-
-                    labels: {
-
-                        color: "white"
-                    }
-                }
-            },
-
-            scales: {
-
-                x: {
-
-                    ticks: {
-
-                        color: "white"
-                    }
-                },
-
-                y: {
-
-                    beginAtZero: true,
-
-                    max: 100,
-
-                    ticks: {
-
-                        color: "white"
-                    }
-                }
-            }
-        }
-    });
-    const feed =
-        document.getElementById("incident-feed");
-
-    console.log("Attack:", attack);
-    console.log("Scenario:", scenario);
-    console.log("Feed:", feed);
- 
-    feed.innerHTML = "";
+    // Threat Score
 
     document.getElementById(
-    "mitre-panel"
-    ).innerHTML = "";
+        "m-threat"
+    ).innerText =
+        scenario.threat;
 
-    document.getElementById(
-        "report-content"
-    ).innerText = "";
+    // IOC Panel
 
-    document.getElementById(
-        "evidence-content"
-    ).innerText = "";
-
-    let index = 0;
-
-    if (currentTimer) {
-
-        clearInterval(currentTimer);
-    }
-
-    currentTimer = setInterval(() => {
-
-        if (index === 0)
-            activateAgent(
-                "commander",
-                "Commander Agent"
-            );
-
-        if (index === 2)
-            activateAgent(
-                "forensics",
-                "Digital Forensics Agent"
-            );
-
-        if (index === 4)
-            activateAgent(
-                "threat",
-                "Threat Agent"
-            );
-
-        if (index === 5)
-            activateAgent(
-                "risk",
-                "Risk Agent"
-            );
-
-        if (index === 6)
-            activateAgent(
-                "compliance",
-                "Compliance Agent"
-            );
-
-       if (index >= scenario.events.length) {
-
-    clearInterval(currentTimer);
-
-    document.getElementById(
-        "report-content"
-    ).innerText = scenario.report;
-
-    document.getElementById(
-        "evidence-content"
-    ).innerText = scenario.evidence;
-
-    const mitrePanel =
+    const iocPanel =
         document.getElementById(
-            "mitre-panel"
+            "ioc-list"
         );
 
-    scenario.mitre.forEach(
-        technique => {
+    iocPanel.innerHTML = "";
+
+    scenario.iocs.forEach(
+        ioc => {
 
             const div =
                 document.createElement(
@@ -354,37 +131,70 @@ severityChart =
                 );
 
             div.className =
-                "mitre-item";
+                "ng-ioc-item";
 
-            div.innerText =
-                technique;
+            div.innerHTML =
+                `<span>${ioc}</span>`;
 
-            mitrePanel.appendChild(
+            iocPanel.appendChild(
                 div
             );
         }
     );
 
-    return;
+    // Terminal
+
+    const terminal =
+        document.getElementById(
+            "terminal"
+        );
+
+    terminal.innerHTML = "";
+
+    scenario.terminal.forEach(
+        line => {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+            div.className =
+                "ng-terminal-line";
+
+            div.innerText =
+                line;
+
+            terminal.appendChild(
+                div
+            );
+        }
+    );
+
+    // Status Badge
+
+    document.getElementById(
+        "sim-status"
+    ).innerText =
+        "RUNNING";
+
+    setTimeout(() => {
+
+        document.getElementById(
+            "sim-status"
+        ).innerText =
+            "COMPLETE";
+
+    }, 2000);
+
+    console.log(
+        "Scenario executed:",
+        name
+    );
 }
-        const div =
-            document.createElement("div");
+function loadScenario(name){
 
-        div.className = "feed-event";
+    console.log("Loading:", name);
 
-        div.innerHTML = `
-            <div class="timestamp">
-                ${new Date().toLocaleTimeString()}
-            </div>
-
-            <div>
-                ${scenario.events[index]}
-            </div>
-        `;
-
-        feed.prepend(div);
-
-        index++;
-
-    }, 1500);
+    runScenario(name);
 }

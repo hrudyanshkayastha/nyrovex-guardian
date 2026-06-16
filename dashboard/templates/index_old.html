@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Nyrovex Guardian</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+
+
+</head>
+
+<body>
+
+        <div class="layout">
+
+    <aside class="sidebar">
+
+        <h2>NYROVEX</h2>
+
+        <ul>
+
+            <li>Overview</li>
+
+            <li>Incidents</li>
+
+            <li>MITRE ATT&CK</li>
+
+            <li>Evidence Locker</li>
+
+            <li>Executive Reports</li>
+
+        </ul>
+
+    </aside>
+
+    <main class="content">
+
+        <div class="container">
+
+            <h1>NYROVEX GUARDIAN</h1>
+
+            <p class="subtitle">
+                Autonomous Cyber Defense Platform
+            </p>
+        <div class="cards">
+
+            <div class="card">
+                <h3>Critical Incidents</h3>
+                <p>{{ critical_incidents }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Active Cases</h3>
+                <p>{{ active_cases }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Threat Level</h3>
+                <p>{{ threat_level }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Confidence</h3>
+                <p>{{ confidence }}%</p>
+            </div>
+
+        </div>
+
+        <div class="panel">
+
+            <h2>Agent Status</h2>
+
+            <div id="agents">
+
+                <div class="agent" id="commander">
+                    🟢 Commander Agent
+                </div>
+
+                <div class="agent" id="threat">
+                    🟢 Threat Agent
+                </div>
+
+                <div class="agent" id="risk">
+                    🟢 Risk Agent
+                </div>
+
+                <div class="agent" id="compliance">
+                    🟢 Compliance Agent
+                </div>
+
+                <div class="agent" id="forensics">
+                    🟢 Digital Forensics Agent
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="panel">
+
+            <h2>Attack Simulation</h2>
+
+            <select id="attack-type">
+
+                <option>Credential Dumping</option>
+                <option>Ransomware</option>
+                <option>Data Exfiltration</option>
+
+            </select>
+
+            <button onclick="simulateAttack()">
+                Simulate Incident
+            </button>
+
+        </div>
+
+        <div class="panel">
+
+            <h2>THREAT SEVERITY TREND</h2>
+
+            <div class="chart-container">
+
+                <canvas id="severityChart"></canvas>
+
+        </div>
+
+        <div class="panel">
+
+            <h2>LIVE INCIDENT FEED</h2>
+
+            <div id="incident-feed"></div>
+
+        </div>
+
+        <div class="panel">
+
+            <h2>Evidence Locker</h2>
+
+            <pre id="evidence-content"></pre>
+
+        </div>
+
+        <div class="panel">
+
+            <h2>MITRE ATT&CK MAPPING</h2>
+
+            <div id="mitre-panel">
+
+                <div class="mitre-item">
+                    Awaiting Analysis...
+               </div>
+
+           </div>
+
+       </div>
+
+        <div class="panel">
+
+            <h2>Executive Report</h2>
+
+            <a href="/download-report">
+
+                <button>
+                    Download Report
+                </button>
+                
+
+        </a>
+
+        <pre id="report-content"></pre>
+
+        </div>
+
+     </main>
+  
+  </div>
+
+    <script src="/static/js/app.js"></script>
+
+</body.>
+
+</html>

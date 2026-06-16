@@ -1,185 +1,276 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Nyrovex Guardian</title>
+<title>Nyrovex Guardian</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="/static/css/style.css">
 
-    <link rel="stylesheet" href="/static/css/style.css">
-
-
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 </head>
 
 <body>
-
-        <div class="layout">
-
-    <aside class="sidebar">
-
-        <h2>NYROVEX</h2>
-
-        <ul>
-
-            <li>Overview</li>
-
-            <li>Incidents</li>
-
-            <li>MITRE ATT&CK</li>
-
-            <li>Evidence Locker</li>
-
-            <li>Executive Reports</li>
-
-        </ul>
-
-    </aside>
-
-    <main class="content">
-
-        <div class="container">
-
-            <h1>NYROVEX GUARDIAN</h1>
-
-            <p class="subtitle">
-                Autonomous Cyber Defense Platform
-            </p>
-        <div class="cards">
-
-            <div class="card">
-                <h3>Critical Incidents</h3>
-                <p>{{ critical_incidents }}</p>
-            </div>
-
-            <div class="card">
-                <h3>Active Cases</h3>
-                <p>{{ active_cases }}</p>
-            </div>
-
-            <div class="card">
-                <h3>Threat Level</h3>
-                <p>{{ threat_level }}</p>
-            </div>
-
-            <div class="card">
-                <h3>Confidence</h3>
-                <p>{{ confidence }}%</p>
-            </div>
-
-        </div>
-
-        <div class="panel">
-
-            <h2>Agent Status</h2>
-
-            <div id="agents">
-
-                <div class="agent" id="commander">
-                    🟢 Commander Agent
-                </div>
-
-                <div class="agent" id="threat">
-                    🟢 Threat Agent
-                </div>
-
-                <div class="agent" id="risk">
-                    🟢 Risk Agent
-                </div>
-
-                <div class="agent" id="compliance">
-                    🟢 Compliance Agent
-                </div>
-
-                <div class="agent" id="forensics">
-                    🟢 Digital Forensics Agent
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="panel">
-
-            <h2>Attack Simulation</h2>
-
-            <select id="attack-type">
-
-                <option>Credential Dumping</option>
-                <option>Ransomware</option>
-                <option>Data Exfiltration</option>
-
-            </select>
-
-            <button onclick="simulateAttack()">
-                Simulate Incident
-            </button>
-
-        </div>
-
-        <div class="panel">
-
-            <h2>THREAT SEVERITY TREND</h2>
-
-            <div class="chart-container">
-
-                <canvas id="severityChart"></canvas>
-
-        </div>
-
-        <div class="panel">
-
-            <h2>LIVE INCIDENT FEED</h2>
-
-            <div id="incident-feed"></div>
-
-        </div>
-
-        <div class="panel">
-
-            <h2>Evidence Locker</h2>
-
-            <pre id="evidence-content"></pre>
-
-        </div>
-
-        <div class="panel">
-
-            <h2>MITRE ATT&CK MAPPING</h2>
-
-            <div id="mitre-panel">
-
-                <div class="mitre-item">
-                    Awaiting Analysis...
-               </div>
-
-           </div>
-
-       </div>
-
-        <div class="panel">
-
-            <h2>Executive Report</h2>
-
-            <a href="/download-report">
-
-                <button>
-                    Download Report
-                </button>
-                
-
-        </a>
-
-        <pre id="report-content"></pre>
-
-        </div>
-
-     </main>
-  
+<div class="ng-root">
+
+  <!-- HEADER -->
+  <div class="ng-header">
+    <div class="ng-logo">
+      <div class="ng-logo-icon">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 1L14 4.5V11.5L8 15L2 11.5V4.5L8 1Z" stroke="#58a6ff" stroke-width="1.2" fill="none"/>
+          <circle cx="8" cy="8" r="2" fill="#58a6ff"/>
+        </svg>
+      </div>
+      <div>
+        <div class="ng-logo-name">NYROVEX GUARDIAN</div>
+        <div class="ng-logo-sub">MULTI-AGENT INCIDENT RESPONSE PLATFORM</div>
+      </div>
+    </div>
+    <div class="ng-status-bar">
+      <div style="display:flex;align-items:center;gap:5px">
+        <div class="ng-pulse"></div>
+        <span class="ng-status-text">ALL AGENTS ONLINE</span>
+      </div>
+      <div class="ng-time" id="ng-clock">--:--:-- UTC</div>
+      <button class="ng-btn danger" onclick="triggerAlert()">SIM ATTACK</button>
+    </div>
   </div>
 
-    <script src="/static/js/app.js"></script>
+  <!-- BODY GRID -->
+  <div class="ng-grid">
 
-</body.>
+    <!-- SIDEBAR -->
+    <div class="ng-sidebar">
+      <div class="ng-sidebar-section">NAVIGATION</div>
+      <div class="ng-nav-item active"><i class="ti ti-layout-dashboard"></i> Overview</div>
+      <div class="ng-nav-item"><i class="ti ti-alert-triangle"></i> Incidents <span style="margin-left:auto;background:#da3633;color:#fff;font-size:8px;padding:1px 5px;border-radius:8px;" id="inc-badge">3</span></div>
+      <div class="ng-nav-item"><i class="ti ti-shield"></i> MITRE ATT&CK</div>
+      <div class="ng-nav-item"><i class="ti ti-database"></i> Evidence Locker</div>
+      <div class="ng-nav-item"><i class="ti ti-file-report"></i> Exec Reports</div>
 
+      <div class="ng-sidebar-section">AGENTS</div>
+      <div class="ng-nav-item"><i class="ti ti-robot"></i> Commander <span style="margin-left:auto;background:#238636;color:#fff;font-size:8px;padding:1px 5px;border-radius:8px;">OK</span></div>
+      <div class="ng-nav-item"><i class="ti ti-bug"></i> Threat Agent</div>
+      <div class="ng-nav-item"><i class="ti ti-chart-bar"></i> Risk Agent</div>
+      <div class="ng-nav-item"><i class="ti ti-checklist"></i> Compliance</div>
+      <div class="ng-nav-item"><i class="ti ti-fingerprint"></i> Forensics</div>
+
+      <div class="ng-sidebar-section">SYSTEM</div>
+      <div class="ng-nav-item"><i class="ti ti-settings"></i> ALCDP-X Link</div>
+      <div class="ng-nav-item"><i class="ti ti-download"></i> Export Report</div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="ng-main">
+
+      <!-- METRIC CARDS -->
+      <div class="ng-metrics">
+        <div class="ng-metric danger">
+          <div class="ng-metric-label">ACTIVE INCIDENTS</div>
+          <div class="ng-metric-value" id="m-incidents">3</div>
+          <div class="ng-metric-delta" style="color:#f85149">▲ 2 in last hour</div>
+        </div>
+        <div class="ng-metric warn">
+          <div class="ng-metric-label">THREAT SCORE</div>
+          <div class="ng-metric-value" id="m-threat">87</div>
+          <div class="ng-metric-delta" style="color:#e3b341">HIGH RISK</div>
+        </div>
+        <div class="ng-metric ok">
+          <div class="ng-metric-label">AGENTS ACTIVE</div>
+          <div class="ng-metric-value">5/5</div>
+          <div class="ng-metric-delta" style="color:#3fb950">ALL NOMINAL</div>
+        </div>
+        <div class="ng-metric info">
+          <div class="ng-metric-label">IOCs EXTRACTED</div>
+          <div class="ng-metric-value" id="m-iocs">24</div>
+          <div class="ng-metric-delta" style="color:#58a6ff">LAST 24H</div>
+        </div>
+      </div>
+
+      <!-- ROW 2: INCIDENTS + AGENTS -->
+      <div class="ng-row2">
+        <div class="ng-panel">
+          <div class="ng-panel-header">
+            <span class="ng-panel-title">LIVE INCIDENT FEED</span>
+            <span class="ng-panel-badge live">● LIVE</span>
+          </div>
+          <div id="incident-feed">
+            <div class="ng-incident-item"onclick="loadScenario('Credential Dumping')">
+              <span class="ng-sev sev-crit">CRIT</span>
+              <div style="flex:1">
+                <div class="ng-inc-title">Credential Dumping — Mimikatz</div>
+                <div class="ng-inc-meta">DC-PROD-01 · Forensics Agent · 2m ago</div>
+              </div>
+              <span class="ng-inc-status st-investigating">INVESTIGATING</span>
+            </div>
+            <div class="ng-incident-item"onclick="loadScenario('Ransomware Deploy')">
+              <span class="ng-sev sev-crit">CRIT</span>
+              <div style="flex:1">
+                <div class="ng-inc-title">Ransomware Payload Detected</div>
+                <div class="ng-inc-meta">WS-FINANCE-12 · Threat Agent · 11m ago</div>
+              </div>
+              <span class="ng-inc-status st-new">NEW</span>
+            </div>
+            <div class="ng-incident-item"onclick="loadScenario('Data Exfiltration')">
+              <span class="ng-sev sev-high">HIGH</span>
+              <div style="flex:1">
+                <div class="ng-inc-title">Data Exfiltration via DNS Tunnel</div>
+                <div class="ng-inc-meta">FW-EDGE-02 · Risk Agent · 38m ago</div>
+              </div>
+              <span class="ng-inc-status st-investigating">INVESTIGATING</span>
+            </div>
+            <div class="ng-incident-item">
+              <span class="ng-sev sev-med">MED</span>
+              <div style="flex:1">
+                <div class="ng-inc-title">Lateral Movement — SMB Spread</div>
+                <div class="ng-inc-meta">CORP-NET · Compliance Agent · 1h ago</div>
+              </div>
+              <span class="ng-inc-status st-contained">CONTAINED</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ng-panel">
+          <div class="ng-panel-header">
+            <span class="ng-panel-title">AGENT STATUS</span>
+            <span class="ng-panel-badge active">5 ACTIVE</span>
+          </div>
+          <div class="ng-agent-grid">
+            <div class="ng-agent">
+              <div class="ng-agent-dot ag-busy"></div>
+              <div>
+                <div class="ng-agent-name">Commander</div>
+                <div class="ng-agent-task">Orchestrating IR-001</div>
+              </div>
+              <div class="ng-agent-load">97%</div>
+            </div>
+            <div class="ng-agent">
+              <div class="ng-agent-dot ag-busy"></div>
+              <div>
+                <div class="ng-agent-name">Threat Agent</div>
+                <div class="ng-agent-task">Analyzing payload</div>
+              </div>
+              <div class="ng-agent-load">84%</div>
+            </div>
+            <div class="ng-agent">
+              <div class="ng-agent-dot ag-busy"></div>
+              <div>
+                <div class="ng-agent-name">Risk Agent</div>
+                <div class="ng-agent-task">Scoring IR-003</div>
+              </div>
+              <div class="ng-agent-load">61%</div>
+            </div>
+            <div class="ng-agent">
+              <div class="ng-agent-dot ag-online"></div>
+              <div>
+                <div class="ng-agent-name">Compliance</div>
+                <div class="ng-agent-task">Idle — ready</div>
+              </div>
+              <div class="ng-agent-load">12%</div>
+            </div>
+            <div class="ng-agent">
+              <div class="ng-agent-dot ag-busy"></div>
+              <div>
+                <div class="ng-agent-name">Forensics</div>
+                <div class="ng-agent-task">IOC extraction</div>
+              </div>
+              <div class="ng-agent-load">78%</div>
+            </div>
+            <div class="ng-agent">
+              <div class="ng-agent-dot ag-online"></div>
+              <div>
+                <div class="ng-agent-name">ALCDP-X</div>
+                <div class="ng-agent-task" style="color:#3fb950">Link ready</div>
+              </div>
+              <div class="ng-agent-load" style="color:#3fb950">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 3: MITRE + SIMULATOR -->
+      <div class="ng-row2">
+        <div class="ng-panel">
+          <div class="ng-panel-header">
+            <span class="ng-panel-title">MITRE ATT&amp;CK COVERAGE</span>
+          </div>
+          <div id="mitre-panel"></div>
+        </div>
+
+        <div class="ng-panel">
+          <div class="ng-panel-header">
+            <span class="ng-panel-title">ATTACK SIMULATOR</span>
+            <span class="ng-panel-badge live" id="sim-status">READY</span>
+          </div>
+          <div class="attack-scenario" id="sc1" onclick="runScenario('Credential Dumping','sc1')">
+            <div><div class="as-name">Credential Dumping</div><div class="as-meta">Mimikatz · LSASS dump · T1003</div></div>
+            <span class="as-badge" style="background:#3d0f0f;color:#f85149;border:0.5px solid #da3633">CRIT</span>
+          </div>
+          <div class="attack-scenario" id="sc2" onclick="runScenario('Ransomware Deploy','sc2')">
+            <div><div class="as-name">Ransomware Deploy</div><div class="as-meta">LockBit 3.0 · File encrypt · T1486</div></div>
+            <span class="as-badge" style="background:#3d0f0f;color:#f85149;border:0.5px solid #da3633">CRIT</span>
+          </div>
+          <div class="attack-scenario" id="sc3" onclick="runScenario('Data Exfiltration','sc3')">
+            <div><div class="as-name">Data Exfiltration</div><div class="as-meta">DNS tunnel · C2 beacon · T1048</div></div>
+            <span class="as-badge" style="background:#2d1f00;color:#e3b341;border:0.5px solid #9e6a03">HIGH</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 4: TERMINAL + IOCs -->
+      <div class="ng-row2">
+        <div class="ng-panel">
+          <div class="ng-panel-header">
+            <span class="ng-panel-title">FORENSIC TERMINAL</span>
+            <span class="ng-panel-badge active">LIVE</span>
+          </div>
+          <div id="terminal" style="font-family:monospace;font-size:10px;line-height:1.7;min-height:160px;">
+            <div class="ng-terminal-line t-ok">[FORENSICS] Agent initialized · session 0xF3A7</div>
+            <div class="ng-terminal-line t-info">[COMMANDER] Dispatching investigation IR-001</div>
+            <div class="ng-terminal-line t-warn">[THREAT] PowerShell obfuscation detected · score 94</div>
+            <div class="ng-terminal-line t-err">[THREAT] IOC matched: 192.168.44.231 → C2 beacon</div>
+            <div class="ng-terminal-line t-info">[FORENSICS] MITRE map: T1003.001 · T1059.001</div>
+            <div class="ng-terminal-line t-ok">[RISK] Severity: CRITICAL · confidence 0.92</div>
+            <div class="ng-terminal-line t-info">[COMPLIANCE] GDPR Article 33 — notif. deadline: 72h</div>
+            <div class="ng-terminal-line"><span style="color:#6e7681">▶ </span><span class="caret">█</span></div>
+          </div>
+        </div>
+
+        <div class="ng-panel">
+          <div class="ng-panel-header">
+            <span class="ng-panel-title">EXTRACTED IOCs</span>
+          </div>
+          <div id="ioc-list">
+            <div class="ng-ioc-item"><span>192.168.44.231</span><span class="ng-ioc-type">C2 IP</span></div>
+            <div class="ng-ioc-item"><span>mal_lsass_dump.exe</span><span class="ng-ioc-type">FILE HASH</span></div>
+            <div class="ng-ioc-item"><span>svchost-update.bat</span><span class="ng-ioc-type">PS SCRIPT</span></div>
+            <div class="ng-ioc-item"><span>185.220.101.47</span><span class="ng-ioc-type">TOR EXIT</span></div>
+            <div class="ng-ioc-item"><span>HKLM\Run\WinHelper</span><span class="ng-ioc-type">REGISTRY</span></div>
+            <div class="ng-ioc-item"><span>ransom_note.txt</span><span class="ng-ioc-type">ARTIFACT</span></div>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:6px">
+            <button class="ng-btn">Gen Report</button>
+            <button class="ng-btn">ALCDP-X Action</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end ng-main -->
+  </div><!-- end ng-grid -->
+
+  <!-- FOOTER -->
+  <div class="ng-footer">
+    <div class="ng-footer-item"><i class="ti ti-cpu"></i> FastAPI · Python · Chart.js</div>
+    <div class="ng-footer-item"><i class="ti ti-shield-check"></i> Phase 6.5 build</div>
+    <div class="ng-footer-item" id="ng-footer-time">Session active</div>
+  </div>
+
+</div><!-- end ng-root -->
+
+<script src="/static/js/app.js"></script>
+</body>
 </html>
+
